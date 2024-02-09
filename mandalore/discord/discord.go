@@ -4,9 +4,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-
-//	"github.com/MiguelMachado-dev/disc-go-bot/config"
-//	"github.com/MiguelMachado-dev/disc-go-bot/handler"
+	"github.com/jacobbathan/rakatan/mandalore/config"
+	"github.com/jacobbathan/rakatan/mandalore/handler"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -15,7 +14,7 @@ var log = config.NewLogger("discord")
 func Init() {
 	// Create a new Discord Session
 	token := config.GetEnv().DISCORD_BOT_TOKEN
-	commandsChannelId := config.GetEnv().COMMANDS_CHANNEL_ID
+	// commandsChannelId := config.GetEnv().COMMANDS_CHANNEL_ID
 
 	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
@@ -30,18 +29,6 @@ func Init() {
 		return
 	}
 
-	// Set the bot's presence to "Streaming on Twitch"
-	dg.UpdateStatusComplex(discordgo.UpdateStatusData{
-		Activities: []*discordgo.Activity{
-			{
-				Name: "Migtito on Twitch",
-				Type: discordgo.ActivityTypeStreaming,
-				URL:  "https://www.twitch.tv/Migtito",
-			},
-		},
-		Status: "online",
-	})
-
 	// Register all Handlers and Actions
 	registerCommandHandlers(dg, handler.CommandHandlers)
 
@@ -50,16 +37,12 @@ func Init() {
 		return
 	}
 
-	// Start the delete messages ticker
-	// Delete messages from the channel every 24 hours
-	go handler.DeleteMessagesTicker(dg, commandsChannelId, 24)
-
 	log.Infoln("Bot is now running. Press CTRL-C to exit.")
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
-	log.Warnln("bot is exiting. Graceful shutdown in action...")
+	log.Warnln("B4-D4 is exiting. Graceful shutdown in action...")
 
 	dg.Close()
 }

@@ -9,8 +9,6 @@ type CommandHandler interface {
 
 var CommandHandlers = []CommandHandler{
 	// TODO: Add the handlers when creating them
-//	&DeleteHandler{},
-//	&LiveHandler{},
-//	&PriceHandler{},
+	&PingHandler{},
 }
 
